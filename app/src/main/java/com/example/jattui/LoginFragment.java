@@ -3,6 +3,7 @@ package com.example.jattui;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.accessibilityservice.FingerprintGestureController;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * A simple {@link Fragment} subclass.
  */
 
-public class LoginFragment extends Fragment implements FingerprintDialogCallback{
+public class LoginFragment extends Fragment implements FingerprintDialogCallback {
     EditText email;
     EditText password;
     Button btn;
@@ -58,14 +59,12 @@ public class LoginFragment extends Fragment implements FingerprintDialogCallback
         finger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FingerprintDialog.initialize(this)
-                        .title("User Fingerprint")
-                        .message("Place your finger on sensor")
-                        .enterAnimation(DialogAnimation.Enter.RIGHT)
-                        .exitAnimation(DialogAnimation.Exit.RIGHT)
-                        .circleScanningColor(R.color.colorAccent)
-                        .callback(this)
-                        .show();
+                FingerprintManager.FingerprintBuilder(this)
+                        .setTitle(Add your title)
+                        .setSubtitle(Add your subtitle)
+                        .setDescription(Add your description)
+                        .setNegativeButtonText(Add button text)
+                        .build().authenticate(this)
 
             }
         });

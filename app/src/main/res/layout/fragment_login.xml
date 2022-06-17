@@ -109,7 +109,7 @@
             app:lottie_autoPlay="true"
             app:lottie_enableMergePathsForKitKatAndAbove="true"
             app:lottie_imageAssetsFolder="images/"
-            app:lottie_rawRes="@raw/fingerprint"
+            app:lottie_rawRes="@raw/fingerprint_scanning"
             app:lottie_repeatCount="99999"
             app:lottie_repeatMode="reverse"
             app:lottie_speed="2" />
