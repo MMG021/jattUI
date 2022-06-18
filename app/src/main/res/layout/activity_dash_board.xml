@@ -56,6 +56,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            app:lottie_autoPlay="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_imageAssetsFolder="images/"
+            android:onClick="logout"
+            app:lottie_rawRes="@raw/logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_repeatCount="99999"
+            app:lottie_repeatMode="reverse" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -69,84 +84,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView">
 
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="50dp"
-            android:columnCount="2"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="185dp"
+            android:layout_height="173dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView2">
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_imageAssetsFolder="images/"
+            app:lottie_rawRes="@raw/storage_icon_animation"
+            app:lottie_repeatCount="99999"
+            app:lottie_repeatMode="restart"
+            app:lottie_speed="2" />
 
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_columnWeight="1"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="20dp"
-                android:onClick="logout"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_enableMergePathsForKitKatAndAbove="true"
-                        app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/logout"
-                        app:lottie_repeatCount="99999"
-                        app:lottie_repeatMode="reverse" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="15dp"
-                        android:text="LOG OUT"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold|italic" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-        </GridLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/upper_cut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_group_654"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
