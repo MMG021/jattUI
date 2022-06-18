@@ -101,28 +101,24 @@
                     <com.airbnb.lottie.LottieAnimationView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="15dp"
-                        android:background="@color/white"
-                        android:scaleX="2.5"
-                        android:scaleY="2.5"
                         app:lottie_autoPlay="true"
                         app:lottie_enableMergePathsForKitKatAndAbove="true"
                         app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/sheep"
+                        app:lottie_rawRes="@raw/logout"
                         app:lottie_repeatCount="99999"
-                        app:lottie_repeatMode="reverse"
-                        app:lottie_speed="2" />
+                        app:lottie_repeatMode="reverse" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="15dp"
-                        android:gravity="center"
-                        android:text="Explore Cattle"
+                        android:layout_marginTop="15dp"
+                        android:text="LOG OUT"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold|italic" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -181,35 +177,35 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_enableMergePathsForKitKatAndAbove="true"
-                        app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/request"
-                        app:lottie_repeatCount="99999"
-                        app:lottie_repeatMode="reverse" />
+<!--                    <com.airbnb.lottie.LottieAnimationView-->
+<!--                        android:layout_width="80dp"-->
+<!--                        android:layout_height="80dp"-->
+<!--                        app:lottie_autoPlay="true"-->
+<!--                        app:lottie_enableMergePathsForKitKatAndAbove="true"-->
+<!--                        app:lottie_imageAssetsFolder="images/"-->
+<!--                        app:lottie_rawRes="@raw/request"-->
+<!--                        app:lottie_repeatCount="99999"-->
+<!--                        app:lottie_repeatMode="reverse" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="15dp"
-                        android:text="My buy requests"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginHorizontal="15dp"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:text="My buy requests"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -224,35 +220,35 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_enableMergePathsForKitKatAndAbove="true"
-                        app:lottie_imageAssetsFolder="images/"
-                        app:lottie_rawRes="@raw/switch_"
-                        app:lottie_repeatCount="99999"
-                        app:lottie_repeatMode="reverse" />
+<!--                    <com.airbnb.lottie.LottieAnimationView-->
+<!--                        android:layout_width="80dp"-->
+<!--                        android:layout_height="80dp"-->
+<!--                        app:lottie_autoPlay="true"-->
+<!--                        app:lottie_enableMergePathsForKitKatAndAbove="true"-->
+<!--                        app:lottie_imageAssetsFolder="images/"-->
+<!--                        app:lottie_rawRes="@raw/switch_"-->
+<!--                        app:lottie_repeatCount="99999"-->
+<!--                        app:lottie_repeatMode="reverse" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Switch to seller"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginHorizontal="15dp"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:text="Switch to seller"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView

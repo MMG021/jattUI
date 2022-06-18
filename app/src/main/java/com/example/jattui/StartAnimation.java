@@ -15,6 +15,6 @@ public class StartAnimation extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }, 3000);
+        }, 2000);
     }
 }
