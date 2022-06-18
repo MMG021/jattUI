@@ -13,12 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -94,6 +90,7 @@ public class RegisterFragment extends Fragment {
                             Toast.makeText(getContext(), "Your now Register", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getContext(), DashBoard.class));
                             editor.putString("p", strPassword);
+                            editor.putString("e", strEmail);
                             editor.apply();
 
                         } else

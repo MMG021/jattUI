@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".activities.buyer.BuyerDashboard">
+    tools:context=".DashBoard">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
@@ -28,9 +28,9 @@
                 android:layout_width="300dp"
                 android:layout_height="500dp"
                 android:layout_margin="70dp"
-                android:translationY="-235dp"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
+                android:translationY="-235dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.7"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:onClick="exploreCattle"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
@@ -134,7 +133,6 @@
                 android:layout_columnWeight="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:onClick="dairyProducts"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
@@ -179,7 +177,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="20dp"
-                android:onClick="publishRequest"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
@@ -223,7 +220,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="20dp"
-                android:onClick="switchToSeller"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp">
