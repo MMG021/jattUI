@@ -40,7 +40,8 @@
                 app:lottie_imageAssetsFolder="images/"
                 app:lottie_rawRes="@raw/paper"
                 app:lottie_repeatCount="99999"
-                app:lottie_repeatMode="reverse" />
+                app:lottie_repeatMode="reverse"
+                app:lottie_speed="0.5" />
 
             <TextView
                 android:id="@+id/text"
@@ -55,6 +56,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="40dp"
@@ -102,7 +104,7 @@
             app:lottie_rawRes="@raw/storage_icon_animation"
             app:lottie_repeatCount="99999"
             app:lottie_repeatMode="restart"
-            app:lottie_speed="2" />
+            app:lottie_speed="1" />
 
     </ScrollView>
 

@@ -69,7 +69,7 @@ public class LoginFragment extends Fragment {
 
         initClickListeners();
 
-        startActivity(new Intent(getContext(), DashBoard.class));
+//        startActivity(new Intent(getContext(), DashBoard.class));
 
         return itemView;
 
@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment {
             strPassword = password.getText().toString();
             if (strEmail.isEmpty()) {
                 email.setError("Empty");
-                Toast.makeText(getContext(), "Type Your Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Type Your Email", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (strPassword.isEmpty()) {
