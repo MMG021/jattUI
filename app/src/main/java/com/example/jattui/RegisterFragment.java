@@ -57,10 +57,10 @@ public class RegisterFragment extends Fragment {
 
         btn.setOnClickListener(view -> {
 
-            strEmail = email.getText().toString();
-            strName = name.getText().toString();
-            strPassword = password.getText().toString();
-            strRepassword = repassword.getText().toString();
+            strEmail = email.getText().toString().trim();
+            strName = name.getText().toString().trim();
+            strPassword = password.getText().toString().trim();
+            strRepassword = repassword.getText().toString().trim();
 
             if (strName.isEmpty()) {
                 name.setError("Empty");
