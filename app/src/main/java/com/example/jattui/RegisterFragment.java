@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,7 @@ public class RegisterFragment extends Fragment {
     String strName;
     String strPassword;
     String strRepassword;
+    ProgressBar pbLoading;
 
     SharedPreferences.Editor editor;
 
@@ -54,6 +56,8 @@ public class RegisterFragment extends Fragment {
         password = itemView.findViewById(R.id.et_password);
         repassword = itemView.findViewById(R.id.et_repassword);
         btn = itemView.findViewById(R.id.btn_register);
+        pbLoading = itemView.findViewById(R.id.pb_loading);
+        pbLoading.setVisibility(View.GONE);
 
         btn.setOnClickListener(view -> {
 
@@ -64,13 +68,13 @@ public class RegisterFragment extends Fragment {
 
             if (strName.isEmpty()) {
                 name.setError("Empty");
-                Toast.makeText(getContext(), "Type Your Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Type Your Name", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (strEmail.isEmpty()) {
                 email.setError("Empty");
-                Toast.makeText(getContext(), "Type Your Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Type Your Email", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (strPassword.isEmpty()) {
@@ -84,8 +88,10 @@ public class RegisterFragment extends Fragment {
                 return;
             }
 
+            pbLoading.setVisibility(View.VISIBLE);
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(strEmail, strPassword)
                     .addOnCompleteListener(task -> {
+                        pbLoading.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             Toast.makeText(getContext(), "Your now Register", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getContext(), DashBoard.class));

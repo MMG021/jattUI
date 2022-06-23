@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class LoginFragment extends Fragment {
     EditText password;
     Button btn;
     LottieAnimationView finger;
+    ProgressBar pbLoading;
 
 
     String strEmail;
@@ -60,7 +62,8 @@ public class LoginFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View itemView = inflater.inflate(R.layout.fragment_login, container, false);
-
+        pbLoading = itemView.findViewById(R.id.pb_loading);
+        pbLoading.setVisibility(View.GONE);
         initViews(itemView);
 
         initPasswordCheck();
@@ -93,8 +96,10 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getContext(), "Type Your Password", Toast.LENGTH_SHORT).show();
                 return;
             }
+            pbLoading.setVisibility(View.VISIBLE);
             FirebaseAuth.getInstance().signInWithEmailAndPassword(strEmail, strPassword)
                     .addOnCompleteListener(task -> {
+                        pbLoading.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             Toast.makeText(getContext(), "Your logged in", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getContext(), DashBoard.class));
@@ -149,8 +154,12 @@ public class LoginFragment extends Fragment {
             public void onAuthenticationSucceeded(
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+
+                pbLoading.setVisibility(View.VISIBLE);
+
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(getStrSharedPrefs(getContext(), "e"), getStrSharedPrefs(getContext(), "p"))
                         .addOnCompleteListener(task -> {
+                            pbLoading.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(getContext(), DashBoard.class));
                                 getActivity().finish();
