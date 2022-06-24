@@ -17,4 +17,5 @@ public class StartAnimation extends AppCompatActivity {
             finish();
         }, 2000);
     }
+
 }

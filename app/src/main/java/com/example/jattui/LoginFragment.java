@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
 
         initClickListeners();
 
-//        startActivity(new Intent(getContext(), DashBoard.class));
+       startActivity(new Intent(getContext(), DashBoard.class));
 
         return itemView;
 
