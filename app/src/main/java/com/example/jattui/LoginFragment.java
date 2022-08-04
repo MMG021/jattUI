@@ -47,6 +47,8 @@ public class LoginFragment extends Fragment {
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
+//    new update
+
     public LoginFragment() {
         // Required empty public constructor
     }
