@@ -109,41 +109,7 @@
 
 
     </ScrollView>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        tools:ignore="MissingConstraints">
 
-
-        <EditText
-            android:id="@+id/et_file"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_above="@id/sad"
-            android:layout_gravity="center|bottom"
-            android:background="@drawable/et_custom"
-            android:fontFamily="@font/roboto_regular"
-            android:hint="upload your Document"
-            android:padding="15dp"
-            android:textSize="15sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_upload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/btn_custom"
-            android:fontFamily="@font/roboto_regular"
-            android:text="upload"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
