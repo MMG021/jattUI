@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (FirebaseAuth.getInstance().getCurrentUser() != null){
-//            startActivity(new Intent(this, DashBoard.class));
-//            finish();
-//        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            startActivity(new Intent(this, DashBoard.class));
+            finish();
+        }
 
         ViewPager viewPager = findViewById(R.id.viewPager);
 
