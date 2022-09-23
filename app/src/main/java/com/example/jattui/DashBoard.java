@@ -172,7 +172,6 @@ public class DashBoard extends AppCompatActivity {
         return path;
     }
 
-
     @Override
     public void onBackPressed() {
         if (isWebCurrently) {
