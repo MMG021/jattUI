@@ -21,4 +21,12 @@ public class DashBoard extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
+    public void upload(View view) {
+
+    }
+
+    public void scanDocument(View view) {
+
+    }
 }
