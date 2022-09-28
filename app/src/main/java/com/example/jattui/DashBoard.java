@@ -7,12 +7,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jattui.adapters.TypeRecyclerViewAdapter;
@@ -28,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -90,7 +93,7 @@ public class DashBoard extends AppCompatActivity {
 
     public void upload(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("file/*");
+        intent.setType("application/pdf");
         startActivityForResult(intent, 11);
     }
 
@@ -114,8 +117,8 @@ public class DashBoard extends AppCompatActivity {
                     String fileUrl = uri + "";
                     String id = String.valueOf(System.currentTimeMillis());
                     SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                    String name = "doc: " + s.format(new Date());
-                    Document document = new Document(id, name, fileUrl);
+                    String name = "paperless_" + s.format(new Date());
+                    Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
                     FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(id).setValue(document);
                 });
@@ -127,17 +130,20 @@ public class DashBoard extends AppCompatActivity {
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == 11) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
             Uri selectedImage = data.getData();
+
             final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                     .child(selectedImage.getLastPathSegment());
-            File file = Utils.getFile(this, selectedImage);
+            File file = ImageProcessor.saveImageToGallery(this, photo);
             try {
                 mStoreRef.putFile(Uri.fromFile(file)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                     String fileUrl = uri + "";
                     String id = String.valueOf(System.currentTimeMillis());
                     SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                    String name = "doc: " + s.format(new Date());
-                    Document document = new Document(id, name, fileUrl);
+                    String name = "paperless_" + s.format(new Date());
+                    Document document = new Document(id, name, fileUrl, Utils.getExtension(file));
                     FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(id).setValue(document);
                     Log.i(TAG, "onActivityResult: " + fileUrl);
@@ -182,4 +188,44 @@ public class DashBoard extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.jattui.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, 12345);
+            }
+        }
+    }
+
 }

@@ -69,4 +69,7 @@ public class Utils {
         returnCursor.close();
         return name;
     }
+    public static String getExtension(File ff) {
+        return ff.getAbsolutePath().substring(ff.getAbsolutePath().lastIndexOf("."));
+    }
 }

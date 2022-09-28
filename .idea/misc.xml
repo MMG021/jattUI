@@ -12,8 +12,10 @@
         <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/activity_start_animation.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/document_layout.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.2947916666666667" />
+        <entry key="app/src/main/res/xml/paths.xml" value="0.2947916666666667" />
       </map>
     </option>
   </component>

@@ -3,19 +3,25 @@ package com.example.jattui.models;
 public class Document extends Super {
     String id;
     String documentName;
+    String extension;
     String documentUrl;
 
     public Document() {
     }
 
-    public Document(String id, String documentName, String documentUrl) {
+    public Document(String id, String documentName, String documentUrl, String extension) {
         this.id = id;
+        this.extension = extension;
         this.documentName = documentName;
         this.documentUrl = documentUrl;
     }
 
+
     public String getDocumentName() {
         return documentName;
+    }
+    public String getExtension() {
+        return extension;
     }
 
     public void setDocumentName(String documentName) {

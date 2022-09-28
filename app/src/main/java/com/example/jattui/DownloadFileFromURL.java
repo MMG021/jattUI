@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 
 public class DownloadFileFromURL {
-    public static void downloadTask(Context context, String url) throws URISyntaxException, GeneralSecurityException, IOException {
+    public static void downloadTask(Context context, String url, String extension) throws URISyntaxException, GeneralSecurityException, IOException {
         Log.i("TAG", "downloadTask: " + url);
         DownloadManager downloadmanager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
@@ -23,7 +23,7 @@ public class DownloadFileFromURL {
         request.setVisibleInDownloadsUi(false);
         File downloadFileDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        .getAbsolutePath(), System.currentTimeMillis() + ".pdf");
+                        .getAbsolutePath(), System.currentTimeMillis() + "." + extension);
 
         request.setDestinationUri(Uri.fromFile(downloadFileDir));
         downloadmanager.enqueue(request);

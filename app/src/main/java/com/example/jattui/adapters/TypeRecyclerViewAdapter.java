@@ -1,21 +1,22 @@
 package com.example.jattui.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jattui.DashBoard;
+import com.example.jattui.DownloadFileFromURL;
 import com.example.jattui.R;
 import com.example.jattui.models.Document;
 import com.example.jattui.models.Super;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerViewHolder> {
@@ -48,13 +49,24 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
         Document document = (Document) listInstances.get(position);
         holder.tvDocumentText.setText(document.getDocumentName());
         holder.btnDownload.setOnClickListener(view -> {
-            WebView theWebPage = new WebView(context);
-            theWebPage.getSettings().setJavaScriptEnabled(true);
-            theWebPage.getSettings().setPluginState(WebSettings.PluginState.ON);
-            Activity contextActivity = (Activity) context;
-            contextActivity.setContentView(theWebPage);
-            theWebPage.loadUrl(document.getDocumentUrl());
+//            WebView theWebPage = new WebView(context);
+//            theWebPage.getSettings().setJavaScriptEnabled(true);
+//            theWebPage.getSettings().setPluginState(WebSettings.PluginState.ON);
+//            Activity contextActivity = (Activity) context;
+//            contextActivity.setContentView(theWebPage);
+//            theWebPage.loadUrl(document.getDocumentUrl());
             DashBoard.isWebCurrently = true;
+
+            try {
+                DownloadFileFromURL.downloadTask(context, document.getDocumentUrl(), document.getExtension());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
