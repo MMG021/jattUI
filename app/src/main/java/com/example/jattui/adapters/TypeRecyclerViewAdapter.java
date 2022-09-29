@@ -1,9 +1,13 @@
 package com.example.jattui.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,17 +52,33 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
     private void initDocuments(TypeRecyclerViewHolder holder, int position) {
         Document document = (Document) listInstances.get(position);
         holder.tvDocumentText.setText(document.getDocumentName());
-        holder.btnDownload.setOnClickListener(view -> {
-//            WebView theWebPage = new WebView(context);
-//            theWebPage.getSettings().setJavaScriptEnabled(true);
-//            theWebPage.getSettings().setPluginState(WebSettings.PluginState.ON);
-//            Activity contextActivity = (Activity) context;
-//            contextActivity.setContentView(theWebPage);
-//            theWebPage.loadUrl(document.getDocumentUrl());
-            DashBoard.isWebCurrently = true;
 
+        holder.btnShare.setOnClickListener(view -> {
+            /*Create an ACTION_SEND Intent*/
+            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+            /*This will be the actual content you wish you share.*/
+            String shareBody = document.getDocumentUrl();
+            /*The type of the content is text, obviously.*/
+            intent.setType("text/plain");
+            /*Applying information Subject and Body.*/
+            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "File");
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            /*Fire!*/
+            context.startActivity(Intent.createChooser(intent, "Whatsapp"));
+        });
+
+        holder.btnDownload.setOnClickListener(view -> {
+            DashBoard.isWebCurrently = true;
             try {
                 DownloadFileFromURL.downloadTask(context, document.getDocumentUrl(), document.getExtension());
+                ProgressDialog pd = new ProgressDialog(context);
+                pd.setMessage("loading");
+                pd.show();
+                new Handler().postDelayed(() -> {
+                    pd.dismiss();
+                    Toast.makeText(context, "Downloading file, check notifications", Toast.LENGTH_SHORT).show();
+                }, 2000);
+
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             } catch (GeneralSecurityException e) {

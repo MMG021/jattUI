@@ -1,6 +1,7 @@
 package com.example.jattui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,6 +44,8 @@ public class DashBoard extends AppCompatActivity {
     List<Super> listInstances;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     RecyclerView recyclerView;
+    String currentPhotoPath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +60,15 @@ public class DashBoard extends AppCompatActivity {
     }
 
     private void initFirebaseData() {
+        ProgressDialog pd = new ProgressDialog(DashBoard.this);
+        pd.setMessage("loading");
+        pd.show();
+
         FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pd.dismiss();
                         listInstances.clear();
                         for (DataSnapshot child : snapshot.getChildren()) {
                             Document document = child.getValue(Document.class);
@@ -93,7 +101,7 @@ public class DashBoard extends AppCompatActivity {
 
     public void upload(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/pdf");
+        intent.setType("*/*");
         startActivityForResult(intent, 11);
     }
 
@@ -112,8 +120,14 @@ public class DashBoard extends AppCompatActivity {
             String id2 = String.valueOf(System.currentTimeMillis());
             final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                     .child(id2);
+
             try {
+                ProgressDialog pd = new ProgressDialog(DashBoard.this);
+                pd.setMessage("loading");
+                pd.show();
+
                 mStoreRef.putFile(Uri.fromFile(finalFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+                    pd.dismiss();
                     String fileUrl = uri + "";
                     String id = String.valueOf(System.currentTimeMillis());
                     SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
@@ -130,16 +144,17 @@ public class DashBoard extends AppCompatActivity {
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == 11) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-
             Uri selectedImage = data.getData();
-
             final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                     .child(selectedImage.getLastPathSegment());
-            File file = ImageProcessor.saveImageToGallery(this, photo);
+            File file = Utils.getFile(this, selectedImage);
             try {
+                ProgressDialog pd = new ProgressDialog(DashBoard.this);
+                pd.setMessage("loading");
+                pd.show();
                 mStoreRef.putFile(Uri.fromFile(file)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                     String fileUrl = uri + "";
+                    pd.dismiss();
                     String id = String.valueOf(System.currentTimeMillis());
                     SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
                     String name = "paperless_" + s.format(new Date());
@@ -189,8 +204,6 @@ public class DashBoard extends AppCompatActivity {
         }
     }
 
-    String currentPhotoPath;
-
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -206,6 +219,7 @@ public class DashBoard extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent

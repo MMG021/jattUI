@@ -12,8 +12,9 @@ import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 
 public class DownloadFileFromURL {
-    public static void downloadTask(Context context, String url, String extension) throws URISyntaxException, GeneralSecurityException, IOException {
+    public static File downloadTask(Context context, String url, String extension) throws URISyntaxException, GeneralSecurityException, IOException {
         Log.i("TAG", "downloadTask: " + url);
+
         DownloadManager downloadmanager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -27,6 +28,9 @@ public class DownloadFileFromURL {
 
         request.setDestinationUri(Uri.fromFile(downloadFileDir));
         downloadmanager.enqueue(request);
+
+        return downloadFileDir;
+
 //        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 //            @Override
 //            public void onReceive(Context context, Intent intent) {

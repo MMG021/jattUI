@@ -18,9 +18,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JattUI"
         tools:targetApi="31">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.jattui.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+
+        </provider>
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".DashBoard"
             android:exported="false" />
@@ -34,17 +47,6 @@
             </intent-filter>
         </activity>
 
-
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/paths" />
-        </provider>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
@@ -69,7 +70,20 @@ public class Utils {
         returnCursor.close();
         return name;
     }
+
     public static String getExtension(File ff) {
         return ff.getAbsolutePath().substring(ff.getAbsolutePath().lastIndexOf("."));
     }
+
+    public static String getDataDir(Context context) {
+        try {
+            return Environment.getExternalStorageDirectory() + context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0)
+                    .applicationInfo.dataDir;
+        } catch (Exception e) {
+            Log.d(TAG, "getDataDir: No dir");
+        }
+        return null;
+    }
+
 }
