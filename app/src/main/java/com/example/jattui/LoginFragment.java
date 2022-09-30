@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment {
 
 
         btn.setOnClickListener(view -> {
-            strEmail = email.getText().toString();
+            strEmail = email.getText().toString().trim();
             strPassword = password.getText().toString();
             if (strEmail.isEmpty()) {
                 email.setError("Empty");
