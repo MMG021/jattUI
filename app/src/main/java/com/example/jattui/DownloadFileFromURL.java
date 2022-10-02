@@ -31,21 +31,6 @@ public class DownloadFileFromURL {
 
         return downloadFileDir;
 
-//        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                Toast.makeText(context, "File Downloaded", Toast.LENGTH_SHORT).show();
-//                try {
-//                    File file = FileEncryptor.decryptFile(new File(downloadFileDir.getAbsolutePath()));
-//                    Log.i("TAG", "onReceive: " + file.getAbsolutePath());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    Log.i("TAG", "onReceive: decrypting file");
-//                }
-//
-//            }
-//        };
-//
-//        context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
     }
 }
