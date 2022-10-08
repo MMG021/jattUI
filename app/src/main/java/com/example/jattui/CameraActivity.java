@@ -2,8 +2,11 @@ package com.example.jattui;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -16,6 +19,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -34,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -218,31 +224,81 @@ public class CameraActivity extends AppCompatActivity {
         imageView.setImageBitmap(textureView.getBitmap());
         imageView.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> imageView.setVisibility(View.GONE), 2000);
-        File finalFile = ImageProcessor.getFileFromBitmap(this, textureView.getBitmap());
-        String id2 = String.valueOf(System.currentTimeMillis());
-        final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
-                .child(id2);
+        doCrop(getImageUri(CameraActivity.this, textureView.getBitmap()));
 
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void doCrop(Uri picUri) {
         try {
-            ProgressDialog pd = new ProgressDialog(this);
-            pd.setMessage("loading");
-            pd.show();
 
-            mStoreRef.putFile(Uri.fromFile(finalFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
-                pd.dismiss();
-                String fileUrl = uri + "";
-                String id = String.valueOf(System.currentTimeMillis());
-                SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                String name = "paperless_" + s.format(new Date());
-                Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
-                FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(id).setValue(document);
-                finish();
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            cropIntent.setDataAndType(picUri, "image/*");
+            cropIntent.putExtra("crop", "true");
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            cropIntent.putExtra("outputX", 128);
+            cropIntent.putExtra("outputY", 128);
+            cropIntent.putExtra("return-data", true);
+            startActivityForResult(cropIntent, 21323);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            // display an error message
+            String errorMessage = "Whoops - your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 21323) {
+            if (data != null) {
+                // get the returned data
+                Bundle extras = data.getExtras();
+                // get the cropped bitmap
+                Log.i("TAG", "onActivityResult: " + extras);
+                Bitmap selectedBitmap = extras.getParcelable("data");
+                imageView.setImageBitmap(selectedBitmap);
+                imageView.setVisibility(View.VISIBLE);
+
+                File finalFile = ImageProcessor.getFileFromBitmap(CameraActivity.this, selectedBitmap);
+                String id2 = String.valueOf(System.currentTimeMillis());
+                final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
+                        .child(id2);
+
+                try {
+                    ProgressDialog pd = new ProgressDialog(this);
+                    pd.setMessage("loading");
+                    pd.show();
+
+                    mStoreRef.putFile(Uri.fromFile(finalFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+                        pd.dismiss();
+                        String fileUrl = uri + "";
+                        String id = String.valueOf(System.currentTimeMillis());
+                        SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+                        String name = "paperless_" + s.format(new Date());
+                        Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
+                        FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(id).setValue(document);
+                        finish();
+
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
