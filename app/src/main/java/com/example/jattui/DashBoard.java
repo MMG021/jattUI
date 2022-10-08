@@ -12,10 +12,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jattui.adapters.TypeRecyclerViewAdapter;
@@ -45,7 +45,6 @@ public class DashBoard extends AppCompatActivity {
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
     RecyclerView recyclerView;
     String currentPhotoPath;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +93,26 @@ public class DashBoard extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        //Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu(this, view);
+
+        popup.getMenu().add("Logout");
+
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getTitle() == "Logout") {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+
+            return true;
+        });
+
+        popup.show(); //showing popup menu
+
+//
     }
 
     public void upload(View view) {
@@ -106,8 +122,7 @@ public class DashBoard extends AppCompatActivity {
     }
 
     public void scanDocument(View view) {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivityForResult(intent, 22);
+        startActivity(new Intent(this, CameraActivity.class));
     }
 
     @Override
@@ -135,6 +150,7 @@ public class DashBoard extends AppCompatActivity {
                     Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
                     FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(id).setValue(document);
+
                 });
             } catch (Exception e) {
                 e.printStackTrace();

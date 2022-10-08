@@ -14,12 +14,12 @@ public class TypeRecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView tvDocumentText;
     ImageView btnDownload;
     ImageView btnShare;
+    ImageView btnMenu;
 
     public TypeRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
         tvDocumentText = itemView.findViewById(R.id.document_text);
-        btnDownload = itemView.findViewById(R.id.btn_download);
-        btnShare = itemView.findViewById(R.id.btn_share);
+        btnMenu = itemView.findViewById(R.id.btn_menu);
     }
 
 }
