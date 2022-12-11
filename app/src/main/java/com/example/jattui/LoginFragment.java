@@ -38,7 +38,6 @@ public class LoginFragment extends Fragment {
     LottieAnimationView finger;
     ProgressBar pbLoading;
 
-
     String strEmail;
     String strPassword;
     SharedPreferences.Editor editor;
@@ -55,7 +54,6 @@ public class LoginFragment extends Fragment {
 
     public static String getStrSharedPrefs(Context context, String key) {
         return context.getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).getString(key, "");
-
     }
 
     @Override
@@ -67,22 +65,14 @@ public class LoginFragment extends Fragment {
         pbLoading = itemView.findViewById(R.id.pb_loading);
         pbLoading.setVisibility(View.GONE);
         initViews(itemView);
-
         initPasswordCheck();
-
         initBiometrics();
-
         initClickListeners();
-
         return itemView;
-
-
     }
 
     private void initClickListeners() {
         finger.setOnClickListener(view -> biometricPrompt.authenticate(promptInfo));
-
-
         btn.setOnClickListener(view -> {
             strEmail = email.getText().toString().trim();
             strPassword = password.getText().toString();

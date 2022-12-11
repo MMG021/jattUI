@@ -80,6 +80,7 @@ public class CameraActivity extends AppCompatActivity {
             cameraDevice.close();
         }
     };
+
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
@@ -88,7 +89,6 @@ public class CameraActivity extends AppCompatActivity {
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-
         }
 
         @Override
@@ -98,7 +98,6 @@ public class CameraActivity extends AppCompatActivity {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
         }
     };
     private HandlerThread mBackgroundThread;
@@ -224,6 +223,7 @@ public class CameraActivity extends AppCompatActivity {
         imageView.setImageBitmap(textureView.getBitmap());
         imageView.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> imageView.setVisibility(View.GONE), 2000);
+
         doCrop(getImageUri(CameraActivity.this, textureView.getBitmap()));
 
     }
@@ -277,18 +277,22 @@ public class CameraActivity extends AppCompatActivity {
                 final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                         .child(id2);
 
+
                 try {
                     ProgressDialog pd = new ProgressDialog(this);
                     pd.setMessage("loading");
                     pd.show();
 
-                    mStoreRef.putFile(Uri.fromFile(finalFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+                    Uri uriii = Uri.fromFile(finalFile);
+
+                    mStoreRef.putFile(uriii).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                         pd.dismiss();
                         String fileUrl = uri + "";
                         String id = String.valueOf(System.currentTimeMillis());
-                        SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                        String name = "paperless_" + s.format(new Date());
-                        Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
+                        SimpleDateFormat s = new SimpleDateFormat("dd_MM_hh_mm_ss");
+                        String extension = Utils.getExtension(finalFile);
+                        String name = s.format(new Date()) + extension;
+                        Document document = new Document(id, name, fileUrl, extension, finalFile.getAbsolutePath());
                         FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .child(id).setValue(document);
                         finish();

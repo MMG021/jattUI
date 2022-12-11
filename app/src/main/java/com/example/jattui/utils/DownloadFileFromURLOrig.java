@@ -1,4 +1,4 @@
-package com.example.jattui;
+package com.example.jattui.utils;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -10,17 +10,14 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.jattui.utils.FileEncryptor;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 
-public class DownloadFileFromURL {
-    public static File downloadTask(Context context, String url, String extension) throws URISyntaxException, GeneralSecurityException, IOException {
+public class DownloadFileFromURLOrig {
+    public static void downloadTask(Context context, String url, String extension) throws URISyntaxException, GeneralSecurityException, IOException {
         Log.i("TAG", "downloadTask: " + url);
-
         DownloadManager downloadmanager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -30,11 +27,9 @@ public class DownloadFileFromURL {
         request.setVisibleInDownloadsUi(false);
         File downloadFileDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        .getAbsolutePath(), System.currentTimeMillis() + ".ec");
-
+                        .getAbsolutePath(), System.currentTimeMillis() + ".encrypted");
 
         request.setDestinationUri(Uri.fromFile(downloadFileDir));
-
         downloadmanager.enqueue(request);
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -50,10 +45,7 @@ public class DownloadFileFromURL {
 
             }
         };
+
         context.registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
-        return downloadFileDir;
-
-
     }
 }

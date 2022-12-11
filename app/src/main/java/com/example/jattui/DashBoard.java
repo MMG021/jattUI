@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jattui.adapters.TypeRecyclerViewAdapter;
 import com.example.jattui.models.Document;
 import com.example.jattui.models.Super;
+import com.example.jattui.utils.FileEncryptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -141,13 +142,18 @@ public class DashBoard extends AppCompatActivity {
                 pd.setMessage("loading");
                 pd.show();
 
-                mStoreRef.putFile(Uri.fromFile(finalFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+//                TODO: ENCRYPT FILE HERE
+
+                File encryptedFile = FileEncryptor.encryptFile(finalFile);
+                Log.i(TAG, "onActivityResult: ENCRYPTING FILE - " + encryptedFile.getAbsolutePath());
+                mStoreRef.putFile(Uri.fromFile(encryptedFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                     pd.dismiss();
                     String fileUrl = uri + "";
                     String id = String.valueOf(System.currentTimeMillis());
-                    SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                    String name = "paperless_" + s.format(new Date());
-                    Document document = new Document(id, name, fileUrl, Utils.getExtension(finalFile));
+                    SimpleDateFormat s = new SimpleDateFormat("dd_MM_hh_mm_ss");
+                    String ext = Utils.getExtension(finalFile);
+                    String name = s.format(new Date()) + ext;
+                    Document document = new Document(id, name, fileUrl, ext, finalFile.getAbsolutePath());
                     FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(id).setValue(document);
 
@@ -168,13 +174,16 @@ public class DashBoard extends AppCompatActivity {
                 ProgressDialog pd = new ProgressDialog(DashBoard.this);
                 pd.setMessage("loading");
                 pd.show();
-                mStoreRef.putFile(Uri.fromFile(file)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+                File encryptedFile = FileEncryptor.encryptFile(file);
+                Log.i(TAG, "onActivityResult: ENCRYPTING FILE - " + encryptedFile);
+                mStoreRef.putFile(Uri.fromFile(encryptedFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                     String fileUrl = uri + "";
                     pd.dismiss();
                     String id = String.valueOf(System.currentTimeMillis());
-                    SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-                    String name = "paperless_" + s.format(new Date());
-                    Document document = new Document(id, name, fileUrl, Utils.getExtension(file));
+                    SimpleDateFormat s = new SimpleDateFormat("dd_MM_hh_mm_ss");
+                    String ext = Utils.getExtension(file);
+                    String name = s.format(new Date()) + ext;
+                    Document document = new Document(id, name, fileUrl, ext, file.getAbsolutePath());
                     FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .child(id).setValue(document);
                     Log.i(TAG, "onActivityResult: " + fileUrl);
