@@ -72,8 +72,7 @@ public class Encryption {
         int padded = (int) inFile.length() + paddedCount;
 
         decData = new byte[padded];
-
-
+        
         inStream.read(decData);
 
         inStream.close();
@@ -122,6 +121,7 @@ public class Encryption {
         //Naive check, will fail if plaintext file actually contained
         //this at the end
         //For robust check, check that padCount bytes at the end have same value
+
         if (padCount >= 1 && padCount <= 8) {
             decData = Arrays.copyOfRange(decData, 0, decData.length - padCount);
         }

@@ -41,6 +41,8 @@ import java.util.List;
 public class DashBoard extends AppCompatActivity {
 
     public static boolean isWebCurrently = false;
+    public static Document selectedDocument;
+
     String TAG = "tag";
     List<Super> listInstances;
     TypeRecyclerViewAdapter typeRecyclerViewAdapter;
