@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jattui.DashBoard;
 import com.example.jattui.R;
+import com.example.jattui.RenameFileActivity;
 import com.example.jattui.models.Document;
 import com.example.jattui.models.Super;
 import com.example.jattui.utils.DownloadFileFromURLOrig;
@@ -63,6 +64,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
             PopupMenu popup = new PopupMenu(context, holder.btnMenu);
 
             popup.getMenu().add("View");
+            popup.getMenu().add("Rename");
             popup.getMenu().add("Download");
             popup.getMenu().add("Share");
             popup.getMenu().add("Delete");
@@ -142,7 +144,10 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                     intent.setDataAndType(uri, "image/*");
                     context.startActivity(intent);
                 }
-
+                if (item.getTitle() == "Rename") {
+                    DashBoard.selectedDocument = document;
+                    context.startActivity(new Intent(context, RenameFileActivity.class));
+                }
 
                 return true;
             });

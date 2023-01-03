@@ -34,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.jattui.models.Document;
+import com.example.jattui.utils.FileEncryptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -277,15 +278,13 @@ public class CameraActivity extends AppCompatActivity {
                 final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                         .child(id2);
 
-
                 try {
                     ProgressDialog pd = new ProgressDialog(this);
                     pd.setMessage("loading");
                     pd.show();
 
-                    Uri uriii = Uri.fromFile(finalFile);
-
-                    mStoreRef.putFile(uriii).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
+                    File encryptedFile = FileEncryptor.encryptFile(finalFile);
+                    mStoreRef.putFile(Uri.fromFile(encryptedFile)).continueWithTask(task -> mStoreRef.getDownloadUrl()).addOnSuccessListener(uri -> {
                         pd.dismiss();
                         String fileUrl = uri + "";
                         String id = String.valueOf(System.currentTimeMillis());
@@ -296,7 +295,6 @@ public class CameraActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference().child("Documents").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .child(id).setValue(document);
                         finish();
-
                     });
                 } catch (Exception e) {
                     e.printStackTrace();

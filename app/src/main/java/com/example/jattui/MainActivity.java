@@ -24,13 +24,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, DashBoard.class));
             finish();
         }
-
         ViewPager viewPager = findViewById(R.id.viewPager);
-
         AuthenticationPagerAdapter pagerAdapter = new AuthenticationPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragmet(new LoginFragment());
         pagerAdapter.addFragmet(new RegisterFragment());
         viewPager.setAdapter(pagerAdapter);
+
     }
 
     static class AuthenticationPagerAdapter extends FragmentPagerAdapter {
