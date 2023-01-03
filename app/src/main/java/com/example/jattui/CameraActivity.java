@@ -17,6 +17,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
@@ -102,6 +103,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
     private HandlerThread mBackgroundThread;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,16 +240,15 @@ public class CameraActivity extends AppCompatActivity {
 
     private void doCrop(Uri picUri) {
         try {
+            File file = new File(Environment.getExternalStorageDirectory(), "cropped_file.jpg");
+            Uri croppedImageUri = Uri.fromFile(file);
 
             Intent cropIntent = new Intent("com.android.camera.action.CROP");
-
             cropIntent.setDataAndType(picUri, "image/*");
             cropIntent.putExtra("crop", "true");
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
-            cropIntent.putExtra("outputX", 128);
-            cropIntent.putExtra("outputY", 128);
-            cropIntent.putExtra("return-data", true);
+            cropIntent.putExtra("output", croppedImageUri);
             startActivityForResult(cropIntent, 21323);
         }
         // respond to users whose devices do not support the crop action
@@ -265,19 +266,11 @@ public class CameraActivity extends AppCompatActivity {
 
         if (requestCode == 21323) {
             if (data != null) {
-                // get the returned data
-                Bundle extras = data.getExtras();
-                // get the cropped bitmap
-                Log.i("TAG", "onActivityResult: " + extras);
-                Bitmap selectedBitmap = extras.getParcelable("data");
-                imageView.setImageBitmap(selectedBitmap);
-                imageView.setVisibility(View.VISIBLE);
-
-                File finalFile = ImageProcessor.getFileFromBitmap(CameraActivity.this, selectedBitmap);
+                Uri imageUri = data.getData();
+                File finalFile = new File(imageUri.getPath());
                 String id2 = String.valueOf(System.currentTimeMillis());
                 final StorageReference mStoreRef = FirebaseStorage.getInstance().getReference().child("Documents")
                         .child(id2);
-
                 try {
                     ProgressDialog pd = new ProgressDialog(this);
                     pd.setMessage("loading");
@@ -299,8 +292,8 @@ public class CameraActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }
     }
-
 }
