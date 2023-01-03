@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,11 +42,10 @@ public class LoginFragment extends Fragment {
     String strEmail;
     String strPassword;
     SharedPreferences.Editor editor;
-
+    TextView forgotPassword;
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
-
 //    new update
 
     public LoginFragment() {
@@ -72,6 +72,15 @@ public class LoginFragment extends Fragment {
     }
 
     private void initClickListeners() {
+        forgotPassword.setOnClickListener(view -> {
+            strEmail = email.getText().toString().trim();
+            if (strEmail.isEmpty()) {
+                email.setError("Please enter email first.");
+            } else {
+                Utils.sendPasswordResetEmail(requireContext(), strEmail);
+            }
+        });
+
         finger.setOnClickListener(view -> biometricPrompt.authenticate(promptInfo));
         btn.setOnClickListener(view -> {
             strEmail = email.getText().toString().trim();
@@ -110,6 +119,7 @@ public class LoginFragment extends Fragment {
         email = itemView.findViewById(R.id.et_email);
         password = itemView.findViewById(R.id.et_password);
         btn = itemView.findViewById(R.id.btn_login);
+        forgotPassword = itemView.findViewById(R.id.forgot_password);
 
     }
 

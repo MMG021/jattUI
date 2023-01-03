@@ -141,7 +141,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    intent.setDataAndType(uri, "image/*");
+                    intent.setDataAndType(uri, "*/*");
                     context.startActivity(intent);
                 }
                 if (item.getTitle() == "Rename") {
