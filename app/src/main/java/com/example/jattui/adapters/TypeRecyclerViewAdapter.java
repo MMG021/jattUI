@@ -93,17 +93,7 @@ public class TypeRecyclerViewAdapter extends RecyclerView.Adapter<TypeRecyclerVi
                     }
                 }
                 if (item.getTitle() == "Share") {
-//                    /*Create an ACTION_SEND Intent*/
-//                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-//                    /*This will be the actual content you wish you share.*/
-//                    String shareBody = document.getDocumentUrl();
-//                    /*The type of the content is text, obviously.*/
-//                    intent.setType("text/plain");
-//                    /*Applying information Subject and Body.*/
-//                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "File");
-//                    intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-//                    /*Fire!*/
-//                    context.startActivity(Intent.createChooser(intent, "Whatsapp"));
+
 
                     Intent intentShareFile = new Intent(Intent.ACTION_SEND);
                     File fileWithinMyDir = new File(document.getAbsolutePath());
